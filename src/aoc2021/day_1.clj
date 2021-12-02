@@ -37,7 +37,10 @@
                        (conj n)
                        pop)]
        (cons (seq window')
-             (lazy-seq (sliding-windows (rest ns) window-size window')))))))
+             (lazy-seq (sliding-windows
+                         (rest ns)
+                         window-size
+                         window')))))))
 
 
 (def part-2
