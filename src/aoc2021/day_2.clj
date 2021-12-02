@@ -9,7 +9,8 @@
 
 (def initial-position
   {:depth 0
-   :horizontal 0})
+   :horizontal 0
+   :aim 0})
 
 
 (defn sub-command-reducer
@@ -25,4 +26,22 @@
 (def part-1
   (let [{:keys [depth horizontal]}
         (reduce sub-command-reducer initial-position part-1-input)]
+    (* depth horizontal)))
+
+
+(defn sub-command-reducer-2
+  [position command-string]
+  (let [[action n] (str/split command-string #" ")
+        n (edn/read-string n)]
+    (case action
+      "forward" (-> position
+                    (update :horizontal + n)
+                    (update :depth + (* (:aim position) n)))
+      "down" (update position :aim + n)
+      "up" (update position :aim - n))))
+
+
+(def part-2
+  (let [{:keys [depth horizontal]}
+        (reduce sub-command-reducer-2 initial-position part-1-input)]
     (* depth horizontal)))
